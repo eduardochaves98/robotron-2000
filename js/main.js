@@ -33,13 +33,20 @@ const pecas = {
         "velocidade": -2
     }
 }
+const cores = ["Branco","Amarelo","Azul","Preto","Vermelho"];
+const imagem = document.querySelector("#robotron");
 
 
 control.forEach((e) => {
     e.addEventListener("click", (event) => {
         const elementoContador = event.target.parentNode.querySelector('[data-contador]')
-        manipulaDados(event.target.dataset.controle, elementoContador)
-        atualizaEstatistica(event.target.dataset.peca, event.target.dataset.controle)
+        if(event.target.textContent === "<" || event.target.textContent === ">"){
+            manipulaCor(event.target.dataset.controle, elementoContador);
+        }else{
+            manipulaDados(event.target.dataset.controle, elementoContador)
+            atualizaEstatistica(event.target.dataset.peca, event.target.dataset.controle)
+        }
+
     })
 })
 
@@ -50,6 +57,7 @@ function manipulaDados(operation, element){
         element.value++;
     }
 }
+
 function atualizaEstatistica(peca, operation) {
     if(operation === "-") {
         estatisticas.forEach((e) => {
@@ -61,3 +69,14 @@ function atualizaEstatistica(peca, operation) {
         })
     }
 }
+
+function manipulaCor(operation, element) {
+    if(operation === "-"){
+        element.value > 0 ? element.value-- : alert("Já está no minimo");
+    }else{
+        element.value < 4 ? element.value++:element.value = 0;
+    }
+    imagem.setAttribute("src","img/Robotron_2000" + cores[element.value]+".png")
+}
+
+
